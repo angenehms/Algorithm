@@ -35,3 +35,6 @@ function solution(n) {
     return Math.floor(n/2)*(Math.floor(n/2)+1);
 } // 시그마 공식활용
 
+// 풀이(4)
+//reduce 로도 풀어보기
+
