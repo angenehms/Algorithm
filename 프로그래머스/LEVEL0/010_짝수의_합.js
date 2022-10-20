@@ -4,6 +4,7 @@
 // 제한사항
 // 0 < n ≤ 1000
 
+// 풀이 (1)
 function solution(n) {
     let array = [];
     let answer = 0;
@@ -15,3 +16,22 @@ function solution(n) {
     }
     return answer
 }
+
+// 풀이 (2)
+function solution(n) {
+    let sum = 0;
+    while(n) {
+        if (n % 2 == 0) {
+            sum += n;
+        }
+        n--;
+    }
+    
+    return sum;
+}
+
+// 풀이 (3)
+function solution(n) {
+    return Math.floor(n/2)*(Math.floor(n/2)+1);
+} // 시그마 공식활용
+
