@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -31,7 +30,7 @@ public class Solution {
 			// +자 모양
             int maxPlus = 0;
             int tempMaxPlus = 0;
-			for(int r=M; r<N+M; r++  ) {
+			for(int r=M; r<N+M; r++) {
 				for(int c=M; c<N+M; c++) {
 					for(int m=1; m<M; m++) {
 						tempMaxPlus += map[r][c-m] + map[r][c+m] + map[r-m][c] + map[r+m][c];
