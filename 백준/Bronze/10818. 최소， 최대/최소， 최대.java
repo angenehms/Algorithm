@@ -13,12 +13,17 @@ public class Main {
 		
 		int N = Integer.parseInt(br.readLine());
 		st = new StringTokenizer(br.readLine());
-		int[] arr = new int[N];
+		int min = Integer.MAX_VALUE;
+		int max = Integer.MIN_VALUE;
+		int temp = 0; 
 		for(int i =0; i<N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
+			temp = Integer.parseInt(st.nextToken());
+			
+			min = Math.min(min, temp);
+			max = Math.max(max, temp);
 		}
-		Arrays.sort(arr);
-		System.out.print(arr[0] + " " + arr[N-1]);
+
+		System.out.print(min + " " + max);
 		
 	} // end of main
 
