@@ -21,7 +21,7 @@ public class Solution {
 				arr[i] = Integer.parseInt(st.nextToken());
 			}
 			int max = 0;
-			long sum = 0L;
+			long sum = 0;
 			for(int i=N-1; i>=0; i--) { // 뒤에서부터 순회
 				if(arr[i] > max) {
 					max = arr[i];
