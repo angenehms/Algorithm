@@ -29,23 +29,25 @@ public class Main {
 //					swap(j, j+1);
 //				}
 //			}
-//		}
+//		} // 버블 정렬로 하면 시간초과 
 		
-		Arrays.sort(arr);
+		Arrays.sort(arr); // 퀵정렬 기반
 		
 		// 출력
 		for(int i=0; i<N; i++) {
-			System.out.println(arr[i]);
+			sb.append(arr[i]).append("\n");
 		}
+		
+		System.out.println(sb);
 		
 		
 	} // end of main
 	
 	
-	static void swap(int idx, int idx2) {
-		int temp = arr[idx];
-		arr[idx] = arr[idx2];
-		arr[idx2] = temp;
-	}
+//	static void swap(int idx, int idx2) {
+//		int temp = arr[idx];
+//		arr[idx] = arr[idx2];
+//		arr[idx2] = temp;
+//	}
 
 } // end of class
