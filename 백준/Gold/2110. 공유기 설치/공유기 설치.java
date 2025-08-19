@@ -38,6 +38,7 @@ public class Main {
 			int gap = latter - former; // 정렬했으므로
 			
 			if(minGap > gap) minGap = gap;
+//			if(maxGap < gap) maxGap = gap; 이건 아니야 !! 왜냐면 이건 인접한 집 거리차 중에 가장 큰거고 !! 우리는 공유기가 설치된 집끼리의 최대 거리차를 저장해야하기에 처음 집과 끝집의 거리를 담는 게 옳아!!
 		}
 		
 		// 그럼 정답은 minGap ~ maxGap 범위에 있겠다
@@ -64,7 +65,7 @@ public class Main {
 			
 //			if(installCnt == C) 이 조건으로 하면 안된다! >= C 후보중에서 가장 큰걸 찾아야해서 !!
 			if (installCnt >= C) { // 너무 많이 설치되었으니 간격을 넓힌다 // 여기 !!!
-				result = mid;
+				result = mid; // 후보가 되는 mid 를 여기 담아줘야지 !! 밑에 조건식인 (installCnt < C) 의 경우에는 result 에 안담아야하니까!! 즉 저떄는 mid 가 정답 후보가 아니니 result 에는 정답후보만 넣어야하기 위해 !!
 				start = mid + 1;
 			} else if (installCnt < C) { // 너무 적게 설치되었으니 간격을 좁힌다
 				end = mid - 1;
