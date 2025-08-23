@@ -33,7 +33,11 @@ public class Main {
 				}
 			}
 		}
-		
+//		
+//		if(N == 1) {
+//			System.out.println(1);
+//			return;
+//		}
 		
 		// 시작점 마다마다 dfs 돌기
 		for(int i=0; i<N; i++) {
