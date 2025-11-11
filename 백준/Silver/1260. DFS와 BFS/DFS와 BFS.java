@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -27,33 +28,19 @@ public class Main {
 	// 어떤 두 정점 사이에 여러개의 간선이 있을 수 있음
 	// 입력으로 주어지는 간선은 양방향
 	
-	static class Node {
-		
-		int from;
-		int to;
-		int weight;
-		
-		Node(int from, int to, int weight) {
-			this.from = from;
-			this.to = to;
-			this.weight = weight;
-		}
-		
-	} // end of Node
-	
 	static int node;
 	static int line;
 	static int start;
 	
-	static boolean[] visited;
-	static List<Node>[] graph;
-	
 	static StringBuilder sb = new StringBuilder();
 	
-	static Deque<Integer> q = new ArrayDeque<>();
+	static List<Integer>[] graph; 
+	
+	static boolean[] visited;
+	static Deque<Integer> q;
 	
 	public static void main(String[] args) throws IOException {
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
@@ -62,26 +49,25 @@ public class Main {
 		line = Integer.parseInt(st.nextToken());
 		start = Integer.parseInt(st.nextToken());
 		
-		// graph 초기화
+		// 그래프 초기화
 		graph = new ArrayList[node+1];
-		for(int i=1; i<=node; i++) {
+		for(int i=0; i<node+1; i++) {
 			graph[i] = new ArrayList<>();
 		}
 		
-		// graph 그리기
+		// 그래프 그리기
 		for(int i=0; i<line; i++) {
 			st = new StringTokenizer(br.readLine());
 			int from = Integer.parseInt(st.nextToken());
 			int to = Integer.parseInt(st.nextToken());
-			graph[from].add(new Node(from, to, 0));
-			graph[to].add(new Node(to, from, 0));
-
+			// 양방향
+			graph[from].add(to);
+			graph[to].add(from);
 		}
 		
-		// graph 정렬하기
-		for(int i=0; i<=node; i++) {
-			if(graph[i] == null) continue;
-			graph[i].sort((a,b) -> a.to - b.to);
+		// 정렬하기 (graph는 배열이다)
+		for(int i=0; i<node+1; i++) {
+			Collections.sort(graph[i]);
 		}
 		
 		visited = new boolean[node+1];
@@ -94,31 +80,34 @@ public class Main {
 	} // end of main
 	
 	static void dfs(int start) {
+		
 		if(!visited[start]) {
-			visited[start] = true;
 			sb.append(start).append(" ");
-			for(Node node : graph[start]) {
-				if(!visited[node.to]) {
-					dfs(node.to);
-				}
+			visited[start] = true;
+			for(int next : graph[start]) {
+				dfs(next);
 			}
 		}
+		
 	} // end of dfs
 	
 	static void bfs(int start) {
+		
+		q = new ArrayDeque<>();
 		q.add(start);
 		visited[start] = true;
-		sb.append(start).append(" ");
+		
 		while(!q.isEmpty()) {
 			int curr = q.poll();
-			for(Node node : graph[curr]) {
-				if(!visited[node.to]) {
-					q.add(node.to);
-					visited[node.to] = true;
-					sb.append(node.to).append(" ");
+			sb.append(curr).append(" ");
+			for(int next : graph[curr]) {
+				if(!visited[next]) {
+					q.add(next);
+					visited[next] = true;
 				}
 			}
 		}
+		
 	} // end of bfs
 	
 } // end of class
