@@ -6,97 +6,91 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
-import java.util.concurrent.PriorityBlockingQueue;
 
 public class Main {
-	
-	static class Node implements Comparable<Node> {
-		
-		int to;
-		int weight;
-		
-		Node(int to, int weight) {
-			this.to = to;
-			this.weight = weight;
-		}
 
-		@Override
-		public int compareTo(Node o) {
-			return this.weight - o.weight;
-		}
-		
-	} // end of Node
-	
 	static int node;
 	static int line;
 	static int start;
 	
-	static List<Node>[] graph;
+	static class Node implements Comparable<Node> {
+		int to;
+		int weight;
+		Node(int to, int weight) {
+			this.to = to;
+			this.weight = weight;
+		}
+		public int compareTo(Node o) {
+			return this.weight - o.weight;
+			
+		}
+	} // end of Node
 	
-	static int[] cost;
+	static List<Node>[] graph;
+	static int[] COST;
+	static PriorityQueue<Node> pq;
 	
 	public static void main(String[] args) throws IOException {
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 		
 		st = new StringTokenizer(br.readLine());
-		
-		// 모든 가중치 10 이하의 자연수
-		node = Integer.parseInt(st.nextToken()); // V
-		line = Integer.parseInt(st.nextToken()); // E
-		start = Integer.parseInt(br.readLine()); // K
+		node = Integer.parseInt(st.nextToken());
+		line = Integer.parseInt(st.nextToken());
+		start = Integer.parseInt(br.readLine());
 		
 		// 그래프 초기화
 		graph = new ArrayList[node+1];
-		for(int i=0; i<=node; i++) {
-			graph[i] = new ArrayList<>(); 
+		for(int i=0; i<node+1; i++) {
+			graph[i] = new ArrayList<>();
 		}
 		
 		// 그래프 그리기
-		for(int i=0; i<line; i++) {
+		for(int i =0; i<line; i++) {
 			st = new StringTokenizer(br.readLine());
 			int from = Integer.parseInt(st.nextToken());
 			int to = Integer.parseInt(st.nextToken());
 			int weight = Integer.parseInt(st.nextToken());
-			
-			graph[from].add(new Node(to, weight)); // 단방향
+			graph[from].add(new Node(to, weight));
 		}
 		
-		
-		cost = new int[node+1];
-		Arrays.fill(cost, Integer.MAX_VALUE);
-		dijkstra(start);
-		for(int i=1; i<=node; i++) {
-			if(cost[i] == Integer.MAX_VALUE) {
-				sb.append("INF\n");
-			} else {
-				sb.append(cost[i]+"\n");
+		COST = new int[node+1];
+		Arrays.fill(COST, Integer.MAX_VALUE);
+		daijkstra(start);
+		for(int i=1; i<node+1; i++) {
+			if(COST[i] == Integer.MAX_VALUE) {
+				sb.append("INF");
+				sb.append("\n");
+				continue;
 			}
+			sb.append(COST[i]);
+			sb.append("\n");
 		}
-		
 		System.out.println(sb);
-		
 		
 	} // end of main
 	
-	static void dijkstra(int start) {
+	static void daijkstra(int start) {
 		
-		PriorityQueue<Node> pq = new PriorityQueue<>();
+		pq = new PriorityQueue<>();
 		pq.add(new Node(start, 0));
-		cost[start] = 0;
+		COST[start] = 0;
+		
 		while(!pq.isEmpty()) {
 			Node curr = pq.poll();
-			if(cost[curr.to] < curr.weight) continue; 
+			if(COST[curr.to] < curr.weight) continue;
 			for(Node next : graph[curr.to]) {
-				if(cost[next.to] > next.weight + cost[curr.to]) {
-					cost[next.to] = next.weight + cost[curr.to];
-					pq.add(new Node(next.to, cost[next.to])); // 다음 갈곳 업데이트 -> Node ( next.to, 새로 갱신된 cost 값 )
+				if(COST[next.to] > COST[curr.to] + next.weight) {
+					COST[next.to] = COST[curr.to] + next.weight;
+					pq.add(new Node(next.to, COST[next.to]));
 				}
 			}
 		}
 		
-	} // end of dijkstra
+		
+	} // end of daijkstra
 	
 	
 } // end of class
