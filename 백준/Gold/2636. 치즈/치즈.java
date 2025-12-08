@@ -2,91 +2,102 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main {
+
+	static int height;
+	static int width;
 	
-	static int R;
-	static int C;
 	static int[][] map;
 	
-	static Deque<int[]> q;
-	
 	// 상하좌우
-	static int[] dr = new int[] {-1, 1, 0, 0};
-	static int[] dc = new int[] {0, 0, -1, 1};
-	
+	static int[] dr = {-1,1,0,0};
+	static int[] dc = {0,0,-1,1};
 	static int nr;
 	static int nc;
 	
+	static class Node {
+		int r;
+		int c;
+		Node(int r, int c) {
+			this.r = r;
+			this.c = c;
+		}
+	} // end of Node
+	
+	static Deque<Node> q;
 	static boolean[][] visited;
 	
-	static int time = 0;
-	static int remain;
+	static int thisCycleCnt;
+	static int time;
 	
 	public static void main(String[] args) throws IOException {
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 		
 		st = new StringTokenizer(br.readLine());
-		R = Integer.parseInt(st.nextToken());
-		C = Integer.parseInt(st.nextToken());
+		height = Integer.parseInt(st.nextToken());
+		width = Integer.parseInt(st.nextToken());
 		
-		// map 그리기
-		map = new int[R][C];
-		for(int r=0; r<R; r++) {
+		map = new int[height][width];
+		for(int r=0; r<height; r++) {
 			st = new StringTokenizer(br.readLine());
-			for( int c=0; c<C; c++) {
+			for(int c=0; c<width; c++) {
 				map[r][c] = Integer.parseInt(st.nextToken());
 			}
 		}
 		
 		while(!isAllZero()) {
-			remain = 0;
-			q = new ArrayDeque<>();
-			visited = new boolean[R][C];
-			bfs(new int[] {0, 0});
-			time++;
+			bfs(new Node(0,0));
 		}
 		
-		sb.append(time).append("\n").append(remain);
+		sb.append(time).append("\n").append(thisCycleCnt);
 		System.out.println(sb);
 		
 	} // end of main
 	
-	static void bfs(int[] start) {
-		q.add(start);
-		visited[start[0]][start[1]] = true;
+	static void bfs(Node node) {
+		
+		q = new ArrayDeque<>();
+		visited = new boolean[height][width];
+		thisCycleCnt = 0;
+		time++;
+		
+		q.add(node);
+		visited[node.r][node.c] = true;
+		
+		
 		while(!q.isEmpty()) {
-
-			int[] curr = q.poll();
+			Node curr = q.poll();			
+			
 			for(int i=0; i<4; i++) {
-				nr = curr[0] + dr[i];
-				nc = curr[1] + dc[i];
+				nr = curr.r + dr[i];
+				nc = curr.c + dc[i];
 				if(!checker()) continue;
 				if(visited[nr][nc]) continue;
-				if(map[nr][nc] == 0) {
-					q.add(new int[] {nr, nc});
+				int temp = map[nr][nc];
+				if(temp == 0) {
+					q.add(new Node(nr,nc));
 					visited[nr][nc] = true;
-				} else if(map[nr][nc] == 1) {
-					remain++;
-					visited[nr][nc] = true;
-					map[nr][nc] = 2;
-				} else if(map[nr][nc] > 1) {
-					q.add(new int[] {nr, nc});
+				}
+				if(temp == 1) {
+					thisCycleCnt++;
+					map[nr][nc] = 0;
 					visited[nr][nc] = true;
 				}
 			}
 			
 		}
+		
 	} // end of bfs
 	
 	static boolean isAllZero() {
-		for(int r=0; r<R; r++) {
-			for(int c=0; c<C; c++) {
+		for(int r=0; r<height; r++) {
+			for(int c=0; c<width; c++) {
 				if(map[r][c] == 1) return false;
 			}
 		}
@@ -94,7 +105,7 @@ public class Main {
 	} // end of isAllZero
 	
 	static boolean checker() {
-		return 0<=nr && nr<R && 0<=nc && nc<C;
-	}
+		return 0<=nr && nr<height && 0<=nc && nc<width;
+	} // end of checker
 	
 } // end of class
