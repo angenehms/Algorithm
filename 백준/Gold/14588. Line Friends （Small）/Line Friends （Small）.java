@@ -21,20 +21,11 @@ public class Main {
 		}
 	} // end of Line
 	
-	static class Node {
-		int to;
-		int level;
-		Node(int to, int level) {
-			this.to = to;
-			this.level = level;
-		} 
-	} // end of Node -> 선분 번호를 Node 번호로 다루기 위함
-	
 	static Line[] lineInfo;
-	static List<Node>[] graph;
+	static List<Integer>[] graph;
 	
-	static Deque<Node> q;
-	static boolean[] visited;
+	static int[][] dist;
+	static final int MAX = 987654321;
 	
 	static StringBuilder sb = new StringBuilder();
 	
@@ -56,10 +47,11 @@ public class Main {
 			lineInfo[i] = new Line(left, right);
 		}
 		
-		// 그래프 초기화
-		graph = new ArrayList[N+1];
+		dist = new int[N+1][N+1];
 		for(int i=0; i<N+1; i++) {
-			graph[i] = new ArrayList<>();
+			for(int j=0; j<N+1; j++) {
+				dist[i][j] = MAX;
+			}
 		}
 		
 		// 그래프 그리기
@@ -69,49 +61,42 @@ public class Main {
 				Line latter = lineInfo[j];
 				if(isFriend(former, latter)) {
 					// 양방향 친구
-					graph[i].add(new Node(j, 0));
-					graph[j].add(new Node(i, 0));
+					dist[i][j] = 1;
+					dist[j][i] = 1;
 				}
 			}
 		}
+		
+		fw();
 		
 		Q = Integer.parseInt(br.readLine());
 		for(int i=0; i<Q; i++) {
 			st = new StringTokenizer(br.readLine());
 			int start = Integer.parseInt(st.nextToken());
 			int target = Integer.parseInt(st.nextToken());
-			q = new ArrayDeque<>();
-			visited = new boolean[N+1];
-			bfs(start, target);
+			if(dist[start][target] == MAX) {
+				sb.append(-1).append("\n");
+				continue;
+			}
+			sb.append(dist[start][target]).append("\n");
 		}
 		
 		System.out.println(sb);
 		
 	} // end of main
 	
-	static void bfs(int start, int target) {
+	static void fw() {
 		
-		q.add(new Node(start, 0));
-		visited[start] = true;
-		
-		while(!q.isEmpty()) {
-			Node curr = q.poll();
-			int currTo = curr.to; // 3
-			int currLevel = curr.level; // 0
-			for(Node next : graph[currTo]) {
-				if(visited[next.to]) continue; // 현재 노드에서 뻗어져 나가는 다음 노드를 이미 방문했다면
-				if(next.to == target) {
-					sb.append(currLevel+1).append("\n");
-					return;
+		for(int k=1; k<=N; k++) {
+			for(int i=1; i<=N; i++) {
+				for(int j=1; j<=N; j++) {
+					dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
 				}
-				q.add(new Node(next.to, currLevel+1));
-				visited[next.to] = true;
 			}
 		}
 		
-		sb.append(-1).append("\n");
 		
-	} // end of bfs
+	} // end of fw
 	
 	static boolean isFriend(Line former, Line latter) {
 		
@@ -123,6 +108,7 @@ public class Main {
 		if(formerLeft <= latterLeft && formerRight >= latterLeft) return true;
 		if(formerLeft <= latterRight && formerRight >= latterRight) return true;
 		
+		// 이 아래 조건 안써서 처음에 틀림
 		if(latterLeft <= formerLeft && latterRight >= formerLeft) return true;
 		if(latterLeft <= formerRight && latterRight >= formerRight)	return true;
 			
