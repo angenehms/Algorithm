@@ -28,19 +28,19 @@ public class Main {
 	// 어떤 두 정점 사이에 여러개의 간선이 있을 수 있음
 	// 입력으로 주어지는 간선은 양방향
 	
+	static StringBuilder sb = new StringBuilder();
+	
 	static int node;
 	static int line;
 	static int start;
 	
-	static StringBuilder sb = new StringBuilder();
-	
-	static List<Integer>[] graph; 
+	static List<Integer>[] graph;
 	
 	static boolean[] visited;
 	static Deque<Integer> q;
 	
 	public static void main(String[] args) throws IOException {
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
@@ -52,7 +52,7 @@ public class Main {
 		// 그래프 초기화
 		graph = new ArrayList[node+1];
 		for(int i=0; i<node+1; i++) {
-			graph[i] = new ArrayList<>();
+			graph[i]= new ArrayList<>();
 		}
 		
 		// 그래프 그리기
@@ -65,7 +65,7 @@ public class Main {
 			graph[to].add(from);
 		}
 		
-		// 정렬하기 (graph는 배열이다)
+		// 그래프 정렬
 		for(int i=0; i<node+1; i++) {
 			Collections.sort(graph[i]);
 		}
@@ -82,14 +82,16 @@ public class Main {
 	static void dfs(int start) {
 		
 		if(!visited[start]) {
-			sb.append(start).append(" ");
 			visited[start] = true;
+			sb.append(start);
+			sb.append(" ");
 			for(int next : graph[start]) {
 				dfs(next);
 			}
 		}
 		
-	} // end of dfs
+		
+	} // end of dfs 
 	
 	static void bfs(int start) {
 		
@@ -99,10 +101,11 @@ public class Main {
 		
 		while(!q.isEmpty()) {
 			int curr = q.poll();
-			sb.append(curr).append(" ");
+			sb.append(curr);
+			sb.append(" ");
 			for(int next : graph[curr]) {
 				if(!visited[next]) {
-					q.add(next);
+					q.add(next); 
 					visited[next] = true;
 				}
 			}
