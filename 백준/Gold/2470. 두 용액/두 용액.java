@@ -59,11 +59,9 @@ public class Main {
 			
 		}
 		
-		if(arr[resultL] < arr[resultR]) {
-			System.out.println(arr[resultL] + " " + arr[resultR]);
-		} else {
-			System.out.println(arr[resultR] + " " + arr[resultL]);
-		}
+
+		System.out.println(arr[resultL] + " " + arr[resultR]);
+	
 		
 	} // end of main
 	
