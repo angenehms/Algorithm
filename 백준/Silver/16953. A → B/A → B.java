@@ -43,6 +43,11 @@ public class Main {
 			long from = curr.from;
 			int currLevel = curr.level;
 			
+//			if(from == B) {
+//				System.out.println(currLevel+1);
+//				return;
+//			}
+			
 			long multiple = from*2;
 			long rightAdd = Long.parseLong(from + "" + 1);
 			
@@ -50,6 +55,12 @@ public class Main {
 				System.out.println(currLevel+2);
 				return;
 			} 
+			
+			
+//			if(multiple > B && rightAdd > B) {
+//				System.out.println(-1);
+//				continue;
+//			} 
 			
 			if (multiple < B) {
 				q.add(new Node(multiple, currLevel+1));
