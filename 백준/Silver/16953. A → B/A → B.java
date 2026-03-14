@@ -43,6 +43,7 @@ public class Main {
 			long from = curr.from;
 			int currLevel = curr.level;
 			
+//			// 세트쌍1
 //			if(from == B) {
 //				System.out.println(currLevel+1);
 //				return;
@@ -51,12 +52,14 @@ public class Main {
 			long multiple = from*2;
 			long rightAdd = Long.parseLong(from + "" + 1);
 			
+			// 세트쌍1
 			if(multiple == B || rightAdd == B) {
 				System.out.println(currLevel+2);
 				return;
 			} 
 			
 			
+//			// 세트쌍2
 //			if(multiple > B && rightAdd > B) {
 //				System.out.println(-1);
 //				continue;
@@ -72,6 +75,7 @@ public class Main {
 			
 		}
 		
+		// 세트쌍2
 		// from == B 가 안돼서 while 루프를 나오게 되면
 		System.out.println(-1);
 		
